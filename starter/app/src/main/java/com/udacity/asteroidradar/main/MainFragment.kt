@@ -30,11 +30,11 @@ class MainFragment : Fragment() {
 
         val dataSource = AsteroidDatabase.getInstance(application).asteroidDatabaseDao
 
-        seedAsteroids(dataSource)
-
         val viewModelFactory = MainViewModelFactory(dataSource, application)
 
         val viewModel = ViewModelProvider(this, viewModelFactory).get(MainViewModel::class.java)
+
+        viewModel.seedAsteroids()
 
         binding.viewModel = viewModel
 
@@ -52,6 +52,8 @@ class MainFragment : Fragment() {
         val adapter = AsteroidAdapter(AsteroidListener { asteroid ->
             viewModel.onAsteroidClicked(asteroid)
         })
+
+        val countAsteroids = viewModel.asteroids.value
 
         viewModel.asteroids.observe(viewLifecycleOwner, Observer {
             it?.let { adapter.addHeaderAndSubmitList(it.toParcelable()) }
