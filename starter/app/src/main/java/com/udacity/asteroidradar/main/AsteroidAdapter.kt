@@ -14,8 +14,8 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
-private val ITEM_VIEW_TYPE_HEADER = 0
-private val ITEM_VIEW_TYPE_ITEM = 1
+private const val ITEM_VIEW_TYPE_HEADER = 0
+private const val ITEM_VIEW_TYPE_ITEM = 1
 
 class AsteroidAdapter(val clickListener: AsteroidListener) : ListAdapter<DataItem,
         RecyclerView.ViewHolder>(AsteroidDiffCallback()) {
@@ -68,11 +68,7 @@ class AsteroidAdapter(val clickListener: AsteroidListener) : ListAdapter<DataIte
         }
     }
 
-    class OnClickListener(val clickListener: (asteroid: Asteroid) -> Unit) {
-        fun onClick(asteroid: Asteroid) = clickListener(asteroid)
-    }
-
-    class ViewHolder private constructor(val binding: ListItemAsteroidBinding)
+    class ViewHolder private constructor(private val binding: ListItemAsteroidBinding)
         : RecyclerView.ViewHolder(binding.root) {
         fun bind(clickListener: AsteroidListener, item: Asteroid) {
             binding.asteroid = item

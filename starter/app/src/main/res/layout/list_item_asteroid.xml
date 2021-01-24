@@ -24,7 +24,8 @@
             android:id="@+id/asteorid_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="TextView"
+            android:text="@{asteroid.codename}"
+            android:textColor="@color/default_text_color"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -33,7 +34,8 @@
             android:id="@+id/asteroid_date"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="TextView"
+            android:text="@{asteroid.closeApproachDate}"
+            android:textColor="@color/default_text_color"
             app:layout_constraintEnd_toEndOf="@+id/asteorid_name"
             app:layout_constraintStart_toStartOf="@+id/asteorid_name"
             app:layout_constraintTop_toBottomOf="@+id/asteorid_name"/>
@@ -42,7 +44,9 @@
             android:id="@+id/imageView"
             android:layout_width="18dp"
             android:layout_height="21dp"
-            tools:srcCompat="@drawable/ic_status_normal"
+            app:srcCompat="@drawable/ic_status_normal"
+            app:statusIcon="@{asteroid.potentiallyHazardous}"
+            android:contentDescription="@{asteroid.codename}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintRight_toRightOf="parent"/>
