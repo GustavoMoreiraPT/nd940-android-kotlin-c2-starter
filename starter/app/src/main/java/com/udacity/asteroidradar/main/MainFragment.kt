@@ -18,11 +18,14 @@ import com.udacity.asteroidradar.database.AsteroidDatabaseDao
 import com.udacity.asteroidradar.database.toParcelable
 import com.udacity.asteroidradar.databinding.FragmentMainBinding
 import com.udacity.asteroidradar.dependencyinjection.Injection
+import com.udacity.asteroidradar.enums.AsteroidFilter
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.launch
 
 class MainFragment : Fragment() {
+
+    private lateinit var mainViewModel: MainViewModel
 
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
@@ -39,6 +42,8 @@ class MainFragment : Fragment() {
         val viewModelFactory = MainViewModelFactory(di.repository, application)
 
         val viewModel = ViewModelProvider(this, viewModelFactory).get(MainViewModel::class.java)
+
+        mainViewModel = viewModel
 
         binding.viewModel = viewModel
 
@@ -68,21 +73,19 @@ class MainFragment : Fragment() {
         return binding.root
     }
 
-    private fun seedAsteroids(dataSource: AsteroidDatabaseDao) {
-        lifecycleScope.launch(Dispatchers.IO){
-            if(dataSource.getAll().value == null){
-                dataSource.insert(Asteroid(
-                    codename = "test asteroid"))
-            }
-        }
-    }
-
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         inflater.inflate(R.menu.main_overflow_menu, menu)
         super.onCreateOptionsMenu(menu, inflater)
     }
 
+    @RequiresApi(Build.VERSION_CODES.O)
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
+       when(item.itemId) {
+           R.id.show_all_menu -> mainViewModel.setFilter(AsteroidFilter.WEEKLY)
+           R.id.show_rent_menu -> mainViewModel.setFilter(AsteroidFilter.DAILY)
+           R.id.show_buy_menu -> mainViewModel.setFilter(AsteroidFilter.NONE)
+           else -> mainViewModel.setFilter(AsteroidFilter.NONE)
+       }
         return true
     }
 }
